@@ -10,7 +10,7 @@ export async function updateUser(req, res) {
     const changes = req.body;
     const id = req.user.sub;
     if (!changes || Object.keys(changes).length === 0) {
-      return handleErrorClient(res, 400, "Datos para actualizar son requeridos");
+      return handleErrorClient(res, 400, "Datos para actualizar necesarios");
     }
     const user = await userRepository.findOneBy({ id });
     if (!user) {
@@ -23,7 +23,7 @@ export async function updateUser(req, res) {
       user.password = await bcrypt.default.hash(changes.password, 10);
     }
     await userRepository.save(user);
-    handleSuccess(res, 200, "Perfil actualizado exitosamente", { id: user.id, email: user.email });
+    handleSuccess(res, 200, "Perfil actualizado sin complicaciones", { id: user.id, email: user.email });
   } catch (error) {
     handleErrorClient(res, 500, error.message);
   }
@@ -37,7 +37,7 @@ export async function deleteUser(req, res) {
       return handleErrorClient(res, 404, "Usuario no encontrado");
     }
     await userRepository.remove(user);
-    handleSuccess(res, 200, "Perfil eliminado exitosamente", { id });
+    handleSuccess(res, 200, "Perfil eliminado, trágicamente", { id });
   } catch (error) {
     handleErrorClient(res, 500, error.message);
   }

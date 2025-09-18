@@ -2,7 +2,7 @@ import { handleSuccess } from "../Handlers/responseHandlers.js";
 
 export function getPublicProfile(req, res) {
   handleSuccess(res, 200, "Perfil público obtenido exitosamente", {
-    message: "¡Hola! Este es un perfil público. Cualquiera puede verlo.",
+    message: "Este es un perfil público.",
   });
 }
 
@@ -29,9 +29,9 @@ export async function updateProfile(req, res) {
     if (email) user.email = email;
     if (password) user.password = await bcrypt.hash(password, 10);
     await userRepository.save(user);
-    return res.status(200).json({ message: "Perfil actualizado correctamente" });
+    return res.status(200).json({ message: "Perfil actualizado" });
   } catch (error) {
-    return res.status(500).json({ message: "Error al actualizar perfil", error: error.message });
+    return res.status(500).json({ message: "Error inesperado en la actualizacion de perfil", error: error.message });
   }
 }
 
@@ -43,8 +43,8 @@ export async function deleteProfile(req, res) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
     await userRepository.remove(user);
-    return res.status(200).json({ message: "Perfil eliminado correctamente" });
+    return res.status(200).json({ message: "Perfil eliminado exitosamente" });
   } catch (error) {
-    return res.status(500).json({ message: "Error al eliminar perfil", error: error.message });
+    return res.status(500).json({ message: "Error inesperado al eliminar perfil", error: error.message });
   }
 }
